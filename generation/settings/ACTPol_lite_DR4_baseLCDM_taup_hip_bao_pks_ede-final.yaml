@@ -1,0 +1,222 @@
+likelihood:
+  act:
+    external: import_module('JCH_Cobaya_stable_ACTlike_hip').external_act_like
+    speed: 5
+modules: /home/chill/cobaya_analyses/modules
+output: /mnt/sdceph/users/chill/chains/CLASS2p8_ACTPol_lite_DR4_leakfix_yp2_baseLCDM_taup_hip_R0p01
+params:
+  A:
+    derived: 'lambda A_s: 1e9*A_s'
+    latex: 10^9 A_\mathrm{s}
+  A_s:
+    latex: A_\mathrm{s}
+    value: 'lambda logA: 1e-10*np.exp(logA)'
+  H0:
+    latex: H_0
+    prior:
+      max: 100.1
+      min: 39.9
+  N_ur:
+    latex: N_{ur}
+    prior:
+      max: 0.99
+      min: 0.001
+    proposal: 0.0005
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+  Omega_Lambda:
+    latex: \Omega_\Lambda
+  Omega_m:
+    latex: \Omega_\mathrm{m}
+  YHe:
+    latex: Y_\mathrm{P}
+  age:
+    latex: '{\rm{Age}}/\mathrm{Gyr}'
+  clamp:
+    derived: 'lambda A_s, tau_reio: 1e9*A_s*np.exp(-2*tau_reio)'
+    latex: 10^9 A_\mathrm{s} e^{-2\tau}
+  fEDE:
+    latex: f_\mathrm{EDE}
+    prior:
+      max: 0.5
+      min: 0.001
+    proposal: 0.03
+    ref:
+      max: 0.25
+      min: 0.002
+  log10f_scf:
+    derived: true
+    latex: \mathrm{log}_{10}(f/{\mathrm{eV}})
+  log10z_c:
+    latex: \mathrm{log}_{10}(z_c)
+    prior:
+      max: 4.3
+      min: 3.0
+    proposal: 0.3
+    ref:
+      max: 4.2
+      min: 3.1
+  logA:
+    drop: true
+    latex: \log(10^{10} A_\mathrm{s})
+    prior:
+      max: 3.91
+      min: 1.61
+    proposal: 0.001
+    ref:
+      dist: norm
+      loc: 3.05
+      scale: 0.001
+  m_ncdm:
+    latex: m_{ncdm}
+    prior:
+      max: 0.99
+      min: 0.001
+    proposal: 0.0005
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+  n_s:
+    latex: n_\mathrm{s}
+    prior:
+      max: 1.2
+      min: 0.8
+    proposal: 0.002
+    ref:
+      dist: norm
+      loc: 0.965
+      scale: 0.004
+  omega_b:
+    latex: \Omega_\mathrm{b} h^2
+    prior:
+      max: 0.1
+      min: 0.005
+    proposal: 0.0001
+    ref:
+      dist: norm
+      loc: 0.0224
+      scale: 0.0001
+  omega_cdm:
+    latex: "\\Ome\xE7\u221Aga_\\mathrm{c} h^2"
+    prior:
+      max: 0.99
+      min: 0.001
+    proposal: 0.0005
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+  omegamh2:
+    derived: 'lambda Omega_m, H0: Omega_m*(H0/100)**2'
+    latex: \Omega_\mathrm{m} h^2
+  r:
+    latex: m_{ncdm}
+    prior:
+      max: 0.99
+      min: 0.001
+    proposal: 0.0005
+    ref:
+      dist: norm
+      loc: 0.12
+      scale: 0.001
+  rs_drag:
+    latex: r_\mathrm{drag}
+  s8h5:
+    derived: 'lambda sigma8, H0: sigma8*(H0*1e-2)**(-0.5)'
+    latex: \sigma_8/h^{0.5}
+  s8omegamp25:
+    derived: 'lambda sigma8, Omega_m: sigma8*Omega_m**0.25'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.25}
+  s8omegamp5:
+    derived: 'lambda sigma8, Omega_m: sigma8*Omega_m**0.5'
+    latex: \sigma_8 \Omega_\mathrm{m}^{0.5}
+  sigma8:
+    latex: \sigma_8
+  tau_reio:
+    latex: \tau_\mathrm{reio}
+    prior:
+      dist: norm
+      loc: 0.065
+      scale: 0.015
+    proposal: 0.002
+    ref:
+      dist: norm
+      loc: 0.065
+      scale: 0.002
+  thetai_scf:
+    latex: \theta_i
+    prior:
+      max: 3.1
+      min: 0.1
+    proposal: 0.25
+    ref:
+      max: 3.1
+      min: 0.1
+  yp2:
+    prior:
+      max: 1.1
+      min: 0.9
+    ref:
+      dist: norm
+      loc: 1.01
+      scale: 0.005
+  z_reio:
+    latex: z_\mathrm{re}
+sampler:
+  mcmc:
+    Rminus1_stop: 0.01
+    burn_in: 0
+    check_every: 30
+    covmat: /mnt/sdceph/users/chill/chains/CLASS2p8_ACTPol_lite_DR4_leakfix_yp2_baseLCDM_taup_hip.covmat
+    learn_proposal: true
+    max_tries: 5000
+    proposal_scale: 1.9
+theory:
+  classy:
+    extra_args:
+      CC_scf: 1
+      N_ncdm: 3
+      Omega_Lambda: 0.0
+      Omega_fld: 0
+      Omega_scf: -1
+      P_k_max_h/Mpc: 100.0
+      T_cmb: 2.7255
+      YHe: BBN
+      accurate_lensing: 1
+      attractor_ic_scf: 'no'
+      delta_l_max: 1800
+      hmcode_version: '2020'
+      hyper_flat_approximation_nu: 7000.0
+      hyper_sampling_flat: 32.0
+      l_linstep: 20
+      l_logstep: 1.025
+      l_max_g: 40
+      l_max_ncdm: 30
+      l_max_pol_g: 60
+      l_max_scalars: 9500
+      l_max_ur: 35
+      l_switch_limber: 30.0
+      lensing: 'yes'
+      n_scf: 3
+      perturbations_sampling_stepsize: 0.05
+      radiation_streaming_approximation: 2
+      radiation_streaming_trigger_tau_over_tau_k: 240.0
+      recombination: HyRec
+      sBBN file: /mnt/ceph/users/bbolliet/mflike_class_camb_comparison/class_public/external/bbn/PRIMAT21_class_format.dat
+      scf_parameters: 1, 1, 1, 1, 1, 0.0
+      scf_tuning_index: 3
+      start_large_k_at_tau_h_over_tau_k: 0.05
+      start_small_k_at_tau_c_over_tau_h: 0.0004
+      start_sources_at_tau_c_over_tau_h: 0.006
+      tight_coupling_trigger_tau_c_over_tau_h: 0.005
+      tight_coupling_trigger_tau_c_over_tau_k: 0.008
+      tol_ncdm_synchronous: 1.0e-06
+      transfer_neglect_delta_k_S_e: 0.17
+      transfer_neglect_delta_k_S_t0: 0.17
+      transfer_neglect_delta_k_S_t1: 0.05
+      transfer_neglect_delta_k_S_t2: 0.17
+      ur_fluid_approximation: 2
+      ur_fluid_trigger_tau_over_tau_k: 130

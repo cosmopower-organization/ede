@@ -1,0 +1,51 @@
+# Training-set parameter ranges of the ede v2 emulators, from scripts_2024/1_generate_lhc-ede-final-splitdir.py
+sampling:
+  method: Latin hypercube (pyDOE.lhs, no criterion), each parameter on a uniform grid
+    of N points
+  n_samples: 500000
+  layout: 500000 processes x 1 sample, stored in groups of 500
+parameters:
+  fEDE:
+    min: 0.001
+    max: 0.5
+  log10z_c:
+    min: 3.0
+    max: 4.3
+  thetai_scf:
+    min: 0.1
+    max: 3.1
+  ln10^{10}A_s:
+    min: 2.5
+    max: 3.5
+  n_s:
+    min: 0.8
+    max: 1.2
+  H0:
+    min: 39.99
+    max: 100.01
+  omega_b:
+    min: 0.01933
+    max: 0.02533
+    note: Planck 2018 mean +/- 20 sigma
+  omega_cdm:
+    min: 0.08
+    max: 0.2
+  tau_reio:
+    min: 0.02
+    max: 0.12
+    note: not an input of the P(k) emulators
+  m_ncdm:
+    min: 0.0
+    max: 0.33333
+    note: eV, per species; N_ncdm = 3 degenerate
+  N_ur:
+    min: -2.0
+    max: 2.5
+    note: CLASS N_ur with N_ncdm = 3; N_ur = 0.00441 gives N_eff = 3.044
+  r:
+    min: 0.0
+    max: 0.3
+  z_pk_save_nonclass:
+    min: 0.0
+    max: 20.0
+    note: redshift of the saved P(k); input of the P(k) emulators

@@ -1,0 +1,57 @@
+# CLASS-EDE input used for every training spectrum of the ede v2 emulators.
+# Built from scripts_2024/2_generate_spectra_disbatch_ede-final-splitdir-1k-by_groupid.py
+# (base settings) and ACTPol_lite_DR4_baseLCDM_taup_hip_bao_pks_ede-final.yaml (theory.classy.extra_args).
+# Per sample, the varied parameters of parameter_ranges.yaml are added, with m_ncdm passed
+# as 'm,m,m' (three degenerate species). Lensed C_ell are read up to l_max_scalars = 9500;
+# P(k) at k = geomspace(5e-4, 10, 1000) 1/Mpc and z = z_pk_save_nonclass.
+# sBBN file: give the full path to PRIMAT_Yp_DH_ErrorMC_2021_CLASS.dat (this folder).
+base_settings:
+  output: tCl pCl lCl mPk
+  z_max_pk: 20.0
+  modes: s,t
+  non_linear: hmcode
+  tensor method: exact
+precision_and_model_settings:
+  CC_scf: 1
+  N_ncdm: 3
+  Omega_Lambda: 0.0
+  Omega_fld: 0
+  Omega_scf: -1
+  P_k_max_h/Mpc: 100.0
+  T_cmb: 2.7255
+  YHe: BBN
+  accurate_lensing: 1
+  attractor_ic_scf: 'no'
+  delta_l_max: 1800
+  hmcode_version: '2020'
+  hyper_flat_approximation_nu: 7000.0
+  hyper_sampling_flat: 32.0
+  l_linstep: 20
+  l_logstep: 1.025
+  l_max_g: 40
+  l_max_ncdm: 30
+  l_max_pol_g: 60
+  l_max_scalars: 9500
+  l_max_ur: 35
+  l_switch_limber: 30.0
+  lensing: 'yes'
+  n_scf: 3
+  perturbations_sampling_stepsize: 0.05
+  radiation_streaming_approximation: 2
+  radiation_streaming_trigger_tau_over_tau_k: 240.0
+  recombination: HyRec
+  sBBN file: PRIMAT_Yp_DH_ErrorMC_2021_CLASS.dat
+  scf_parameters: 1, 1, 1, 1, 1, 0.0
+  scf_tuning_index: 3
+  start_large_k_at_tau_h_over_tau_k: 0.05
+  start_small_k_at_tau_c_over_tau_h: 0.0004
+  start_sources_at_tau_c_over_tau_h: 0.006
+  tight_coupling_trigger_tau_c_over_tau_h: 0.005
+  tight_coupling_trigger_tau_c_over_tau_k: 0.008
+  tol_ncdm_synchronous: 1.0e-06
+  transfer_neglect_delta_k_S_e: 0.17
+  transfer_neglect_delta_k_S_t0: 0.17
+  transfer_neglect_delta_k_S_t1: 0.05
+  transfer_neglect_delta_k_S_t2: 0.17
+  ur_fluid_approximation: 2
+  ur_fluid_trigger_tau_over_tau_k: 130
