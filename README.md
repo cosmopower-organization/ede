@@ -10,6 +10,10 @@ The emulators can be used in LCDM, mnu-LCDM, w-CDM and Neff-LCDM and combination
 
 They emulate distances, TT, TE, EE, BB and P(k).
 
+## Update: non-linear P(k) emulators retrained (October 2026)
+
+`PK/PKNL_v2` and `PK/PKNLCB_v2` (all three formats) were retrained after removing corrupted spectra from the training set: CLASS-EDE had returned the linear spectrum in place of the HMcode result for about 16-22% of samples at z < 5. The previous non-linear emulators had errors of tens of percent at k > 0.3/Mpc; the retrained ones are accurate to 0.5% (95th percentile) up to k = 10/Mpc. All other emulators, including the linear `PKL_v2` and the CMB spectra, are unchanged. Details and accuracy table in [PK/README.md](PK/README.md).
+
 ## File formats: `_v2.npz` and `_v2_plain.npz`
 
 Each emulator is provided in **two on-disk formats** with identical weights:
