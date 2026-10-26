@@ -23,6 +23,19 @@ Example of use and comparison with CLASS-EDE: [class_sz documentation](https://c
 
 `<obs>` is one of TT, TE, EE, BB, PP, uTT, uTE, uEE, uBB (C_ell), S8Z, HZ, DAZ (functions of z), PKL, PKLCB, PKNL, PKNLCB (P(k)), DER (derived parameters). The PKNL and PKNLCB files are the 2024 versions, before cleaning; `retraining_2026/clean.py` produces the cleaned sets.
 
+Number of samples (80/20 training/test split):
+
+| data | training | test | total | fraction of the 500,000 hypercube points |
+|---|---:|---:|---:|---:|
+| Latin hypercube (`LHS_parameter_file.npz`) | | | 500,000 | 100% |
+| C_ell, H(z), D_A(z), sigma_8(z), derived parameters, PKL, PKLCB | 396,864 | 99,217 | 496,081 | 99.2% |
+| PKNL, PKNLCB (2024 sets) | 383,536 | 95,885 | 479,421 | 95.9% |
+| PKNL after `clean.py` (HMcode spectra only) | 103,413 | 25,755 | 129,168 | 25.8% |
+
+- 3,919 hypercube points (0.8%) have no spectra: the CLASS-EDE run failed or produced no output.
+- 16,660 further PKNL/PKNLCB samples were dropped in the 2024 reprocessing: CLASS raised an error for the non-linear P(k) at z <= 5. At z > 5 such samples were kept with P_lin in place of P_nl.
+- Of the 479,421 PKNL samples, 350,222 are identical to P_lin: HMcode is not computed above a cosmology-dependent redshift (half of the sampled redshifts are above z = 10), and some runs returned the linear spectrum without error (16-22% of samples at z < 5). A further 31 are HMcode glitches. Counts for PKNLCB differ by fewer than 100 samples.
+
 ## Boltzmann code
 
 `class_ede/` is CLASS v3.2.2 (J. Lesgourgues, T. Tram, N. Schoeneberg et al., https://github.com/lesgourg/class_public) with
@@ -48,7 +61,7 @@ Outputs per sample: lensed and unlensed TT, TE, EE, BB, lensing potential PP up 
 
 ## Parameter ranges
 
-Latin hypercube of 500,000 samples (`settings/parameter_ranges.yaml`, from `scripts_2024/1_generate_lhc-ede-final-splitdir.py`):
+Latin hypercube of 500,000 points (`settings/parameter_ranges.yaml`, from `scripts_2024/1_generate_lhc-ede-final-splitdir.py`; see Training data for the number of computed spectra):
 
 | parameter | min | max | |
 |---|---|---|---|
