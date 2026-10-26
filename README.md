@@ -30,7 +30,7 @@ cls = csz.get_cmb_cls(params_values_dict=params)              # lensed TT, TE, E
 
 ## Training set
 
-The Boltzmann code (CLASS v3.2.2 with the EDE module), the CLASS settings, the parameter ranges and the generation, reprocessing and training scripts are in [generation/](generation/README.md).
+The Boltzmann code (CLASS v3.2.2 with the EDE module), the CLASS settings, the parameter ranges and the generation, reprocessing and training scripts are in [generation/](generation/README.md). The training and test data are on [Google Drive](https://drive.google.com/drive/folders/1Sv_kHq2SuRcUhiN8EVGLhwlcGitvgDfd).
 
 ## Update: non-linear P(k) emulators retrained (October 2026)
 

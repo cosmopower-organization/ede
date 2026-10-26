@@ -11,6 +11,18 @@ Code, settings and scripts used to compute the CLASS-EDE spectra on which the `v
 
 Example of use and comparison with CLASS-EDE: [class_sz documentation](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
 
+## Training data
+
+[Google Drive folder `ede-final`](https://drive.google.com/drive/folders/1Sv_kHq2SuRcUhiN8EVGLhwlcGitvgDfd):
+
+- `<obs>_training_params.npz`, `<obs>_testing_params.npz`: emulator inputs, one array per parameter;
+- `<obs>_training_processed_data.npz`, `<obs>_testing_processed_data.npz`: `features` (float32, one row per sample) and `modes`;
+- `LHS_parameter_file.npz`: the full Latin hypercube (500,000 samples);
+- `group_N/`: raw per-sample outputs (`LHS_parameter_file_i.npz`, `<obs>/data_i.npy`) for 30 of the 1000 groups;
+- `ACTPol_lite_DR4_baseLCDM_taup_hip_bao_pks_ede-final.yaml`: settings file read by the generation scripts.
+
+`<obs>` is one of TT, TE, EE, BB, PP, uTT, uTE, uEE, uBB (C_ell), S8Z, HZ, DAZ (functions of z), PKL, PKLCB, PKNL, PKNLCB (P(k)), DER (derived parameters). The PKNL and PKNLCB files are the 2024 versions, before cleaning; `retraining_2026/clean.py` produces the cleaned sets.
+
 ## Boltzmann code
 
 `class_ede/` is CLASS v3.2.2 (J. Lesgourgues, T. Tram, N. Schoeneberg et al., https://github.com/lesgourg/class_public) with
