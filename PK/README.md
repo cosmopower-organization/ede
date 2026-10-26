@@ -16,6 +16,8 @@ outputs: log10(k^3 P(k)), P in Mpc^3
 PKL / PKLCB: total matter / cold dark matter + baryons, linear
 PKNL / PKNLCB: total matter / cold dark matter + baryons, non-linear
 
+Example of use and comparison with CLASS-EDE: [class_sz documentation](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
+
 ## PKNL_v2 and PKNLCB_v2 retrained (October 2026)
 
 The non-linear v2 emulators were retrained on the same training set after removing

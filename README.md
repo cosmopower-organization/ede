@@ -10,6 +10,24 @@ The emulators can be used in LCDM, mnu-LCDM, w-CDM and Neff-LCDM and combination
 
 They emulate distances, TT, TE, EE, BB and P(k).
 
+## Usage
+
+The emulators are used through [class_sz](https://github.com/CLASS-SZ/class_sz) with `cosmo_model: 6` (`ede-v2`). Example with the matter power spectrum, compared with CLASS-EDE from z = 0 to 15: [documentation page](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
+
+```python
+from classy_sz import Class as Class_sz
+
+params = {'omega_b': 0.02242, 'omega_cdm': 0.11933, 'H0': 67.66, 'tau_reio': 0.0561,
+          'ln10^{10}A_s': 3.047, 'n_s': 0.9665,
+          'fEDE': 0.1, 'log10z_c': 3.562, 'thetai_scf': 2.83}
+csz = Class_sz()
+csz.set(params)
+csz.set({'output': 'mPk', 'cosmo_model': 6, 'skip_input': 1})
+csz.initialize_classy_szfast()
+pk_nl, k = csz.get_pknl_at_z(1., params_values_dict=params)   # k in 1/Mpc, P in Mpc^3
+cls = csz.get_cmb_cls(params_values_dict=params)              # lensed TT, TE, EE, BB, PP
+```
+
 ## Training set
 
 The Boltzmann code (CLASS v3.2.2 with the EDE module), the CLASS settings, the parameter ranges and the generation, reprocessing and training scripts are in [generation/](generation/README.md).

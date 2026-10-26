@@ -9,6 +9,8 @@ Code, settings and scripts used to compute the CLASS-EDE spectra on which the `v
 | `scripts_2024/` | original pipeline: Latin hypercube, spectra, reprocessing, training (2024) |
 | `retraining_2026/` | cleaning and retraining of `PKNL_v2` and `PKNLCB_v2` (October 2026) |
 
+Example of use and comparison with CLASS-EDE: [class_sz documentation](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
+
 ## Boltzmann code
 
 `class_ede/` is CLASS v3.2.2 (J. Lesgourgues, T. Tram, N. Schoeneberg et al., https://github.com/lesgourg/class_public) with
