@@ -10,9 +10,48 @@ The emulators can be used in LCDM, mnu-LCDM, w-CDM and Neff-LCDM and combination
 
 They emulate distances, TT, TE, EE, BB and P(k).
 
+## ede-v3 (October 2026)
+
+`*_v3` files: all emulators retrained on the same CLASS-EDE training set, with all training samples, a common train/test split for the CMB spectra, and a TE emulator for the correlation coefficient `r_l = C_l^TE / sqrt(C_l^TT C_l^EE)` (`TTTEEE/rTE_v3`, `TTTEEE/ruTE_v3`; output `atanh(r_l)`, TE = `tanh(r_l) sqrt(TT EE)`). Inputs, outputs and grids of the other files are those of v2. Training details in [generation/training_v3](generation/training_v3/README.md).
+
+Test-set accuracy, 95th percentile of |emulator / CLASS - 1| (median over l, k or z / maximum), v2 evaluated on its own test set:
+
+| emulator | v2 | v3 | v3 network |
+|---|---|---|---|
+| TT | 0.164% / 0.51% | 0.078% / 0.23% | 4x1024 |
+| EE | 0.181% / 0.56% | 0.077% / 0.40% | 4x1024 |
+| BB | 0.152% / 0.81% | 0.099% / 0.43% | 4x1024 |
+| PP | 0.192% / 0.34% | 0.142% / 0.27% | 4x512 |
+| uTT | 0.115% / 0.45% | 0.041% / 0.13% | 4x1024 |
+| uEE | 0.286% / 1.21% | 0.214% / 0.56% | 4x1024 |
+| uBB | 0.648% / 1.64% | 0.383% / 1.55% | 4x1024 |
+| PKL | 0.156% / 0.32% | 0.025% / 0.28% | 4x1024 |
+| PKLCB | 0.157% / 0.37% | 0.022% / 0.28% | 4x1024 |
+| PKNL | 0.146% / 0.47% | 0.122% / 0.45% | 4x1024 |
+| PKNLCB | 0.137% / 0.47% | 0.117% / 0.46% | 4x512 |
+| DAZ | 0.010% / 0.044% | 0.0005% / 0.0010% | 4x1024 |
+| HZ | 0.0051% / 0.019% | 0.0015% / 0.0044% | 4x1024 |
+| S8Z | 0.015% / 0.032% | 0.0045% / 0.0079% | 4x1024 |
+| DER | 0.013% / 0.067% | 0.0027% / 0.012% | 4x512 |
+
+TE in units of the cosmic-variance error per multipole, sigma_l = sqrt((C_TT C_EE + C_TE^2)/(2l+1)), 19,841 test spectra (v3: TE reconstructed with the v3 TT and EE emulators; uTE with uTT and uEE):
+
+| TE | 2 <= l < 30 | 30-500 | 500-3000 | 3000-9500 |
+|---|---|---|---|---|
+| TE v2, 95th percentile | 0.047 | 0.025 | 0.066 | 0.23 |
+| TE v3, 95th percentile | 0.0074 | 0.015 | 0.039 | 0.038 |
+| TE v2, 99.9th percentile | 0.22 | 0.086 | 0.30 | 2.86 |
+| TE v3, 99.9th percentile | 0.028 | 0.070 | 0.24 | 0.18 |
+| uTE v2, 95th percentile | 0.100 | 0.051 | 0.168 | 0.566 |
+| uTE v3, 95th percentile | 0.0069 | 0.0115 | 0.041 | 0.101 |
+| uTE v2, 99.9th percentile | 0.41 | 0.21 | 0.85 | 4.23 |
+| uTE v3, 99.9th percentile | 0.025 | 0.046 | 0.27 | 0.71 |
+
+PKNL v2: the retrained version of October 2026 (see below). For z > 5 class_sz and classy_szlite return the linear P(k) in place of PKNL.
+
 ## Usage
 
-The emulators are used through [class_sz](https://github.com/CLASS-SZ/class_sz) with `cosmo_model: 6` (`ede-v2`). Example with the matter power spectrum, compared with CLASS-EDE from z = 0 to 15: [documentation page](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
+The emulators are used through [class_sz](https://github.com/CLASS-SZ/class_sz) with `cosmo_model: 7` (`ede-v3`, classy_szfast >= 0.0.25.post41 and a classy_sz release after 0.1.70.post40) or `cosmo_model: 6` (`ede-v2`), and through [classy_szlite](https://github.com/CLASS-SZ/classy_szlite) (ede-v3 by default, `classy_szlite.set_emulator_version("v2")` for v2). Example with the matter power spectrum, compared with CLASS-EDE from z = 0 to 15: [documentation page](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
 
 ```python
 from classy_sz import Class as Class_sz
