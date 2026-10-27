@@ -19,7 +19,7 @@ Same CLASS-EDE training set as v2 (`../README.md`, Google Drive folder `ede-fina
 
 `eval_v2.py` (v2 on its own 2024 test sets), `summarize.py`, `eval_te.py` (TE in units of the cosmic-variance error per l, sigma_l = sqrt((C_TT C_EE + C_TE^2)/(2l+1)), on 19,841 runs that are in the common-split test set and in the 2024 TE test set). Accuracy tables are in `../../README.md`.
 
-Test error against training-set size for TT (`plot_scaling_tt.py`):
+Test error against training-set size for TT (`plot_scaling.py`):
 
 ![TT scaling](scaling_TT.png)
 
