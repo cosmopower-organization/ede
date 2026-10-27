@@ -51,7 +51,7 @@ PKNL v2: the retrained version of October 2026 (see below). For z > 5 class_sz a
 
 ## Usage
 
-The emulators are used through [class_sz](https://github.com/CLASS-SZ/class_sz) with `cosmo_model: 7` (`ede-v3`, classy_szfast >= 0.0.25.post41 and a classy_sz release after 0.1.70.post40) or `cosmo_model: 6` (`ede-v2`), and through [classy_szlite](https://github.com/CLASS-SZ/classy_szlite) (ede-v3 by default, `classy_szlite.set_emulator_version("v2")` for v2). Example with the matter power spectrum, compared with CLASS-EDE from z = 0 to 15: [documentation page](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
+The emulators are used through [class_sz](https://github.com/CLASS-SZ/class_sz) with `cosmo_model: 7` (`ede-v3`, classy_szfast >= 0.0.25.post41 and a classy_sz release after 0.1.70.post40) or `cosmo_model: 6` (`ede-v2`), and through [classy_szlite](https://github.com/CLASS-SZ/classy_szlite) (ede-v3 from 0.2.15; ede-v2 with `classy_szlite <= 0.2.14` and `set_emulator_version("v2")`). Example with the matter power spectrum, compared with CLASS-EDE from z = 0 to 15: [documentation page](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
 
 ```python
 from classy_sz import Class as Class_sz

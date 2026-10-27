@@ -1,6 +1,6 @@
-# Training-set generation for the ede v2 emulators
+# Training-set generation for the ede emulators
 
-Code, settings and scripts used to compute the CLASS-EDE spectra on which the `v2` emulators of this repository were trained, and to retrain the non-linear matter power spectrum emulators in October 2026.
+Code, settings and scripts used to compute the CLASS-EDE spectra on which the `v2` and `v3` emulators of this repository were trained, to retrain the non-linear matter power spectrum emulators of v2 and to train the `v3` emulators (October 2026). Both versions use the same CLASS-EDE spectra.
 
 | folder | content |
 |---|---|
@@ -8,6 +8,7 @@ Code, settings and scripts used to compute the CLASS-EDE spectra on which the `v
 | `settings/` | CLASS input (`class_settings.yaml`), parameter ranges (`parameter_ranges.yaml`), original cobaya yaml, BBN table |
 | `scripts_2024/` | original pipeline: Latin hypercube, spectra, reprocessing, training (2024) |
 | `retraining_2026/` | cleaning and retraining of `PKNL_v2` and `PKNLCB_v2` (October 2026) |
+| `training_v3/` | common train/test split of the CMB spectra, r_l target for TE, training, scaling runs and export of the `v3` emulators (October 2026) |
 
 Example of use and comparison with CLASS-EDE: [class_sz documentation](https://class-sz.readthedocs.io/en/latest/notebooks/classy_szfast_matter_pk_ede.html) ([notebook](https://github.com/CLASS-SZ/class_sz/blob/master/docs/notebooks/classy_szfast_matter_pk_ede.ipynb)).
 
@@ -23,7 +24,7 @@ Example of use and comparison with CLASS-EDE: [class_sz documentation](https://c
 
 `<obs>` is one of TT, TE, EE, BB, PP, uTT, uTE, uEE, uBB (C_ell), S8Z, HZ, DAZ (functions of z), PKL, PKLCB, PKNL, PKNLCB (P(k)), DER (derived parameters). The PKNL and PKNLCB files are the 2024 versions, before cleaning; `retraining_2026/clean.py` produces the cleaned sets.
 
-Number of samples (80/20 training/test split):
+Number of samples (80/20 training/test split). The `v3` CMB emulators use the same 496,081 runs with one 80/20 split common to all CMB observables (`training_v3/build_common_split.py`: 396,865 training, 99,216 test), and all training samples; v2 used 250,000 training samples for TT, EE, BB, PP, uTT, uEE, uBB. The `v3` PKNL and PKNLCB emulators are trained on the `clean.py` sets.
 
 | data | training | test | total | fraction of the 500,000 hypercube points |
 |---|---:|---:|---:|---:|
@@ -116,6 +117,19 @@ python export.py <dir with *_v2_retrained.npz> <output dir>
 Paths to the training data are set at the top of each script.
 
 Since the retrained networks contain no linear spectra, class_sz (classy_szfast >= 0.0.25.post40) returns the linear P(k) for z > 5 (`pknl_zmax` in `emulators_meta_data.py`). Beyond a cosmology-dependent redshift between about 5 and 10, CLASS-EDE itself does not apply HMcode and returns the linear spectrum.
+
+## Training of the v3 emulators (October 2026)
+
+`training_v3/` (details in [training_v3/README.md](training_v3/README.md)):
+
+- `build_common_split.py`, `build_ruTE.py`: one train/test split shared by TT, EE, BB, PP, uTT, uEE, uBB, TE and uTE, so that row i is the same CLASS-EDE run in every file; TE and uTE targets `atanh(r_l)`, `r_l = C_l^TE / sqrt(C_l^TT C_l^EE)`. TE is reconstructed as `tanh(r_l) sqrt(TT EE)` with the TT and EE emulators.
+- `train_v3.py`: JAX cosmopower network, learning rates 1e-2 to 1e-6, global-norm gradient clipping 1.0, batch 1024, patience 100, `JAX_DEFAULT_MATMUL_PRECISION=highest`, all training samples.
+- `runner.py`, `make_jobs*.py`: scaling runs (25,000 to 396,865 training samples) and capacity runs (4x512, 4x1024, 6x1024 hidden layers; PCA and r_l for TE). `select_v3.py` keeps, per observable, the run with the lowest median over modes of the 95th-percentile test error; `export_v3.py` writes `_v3.npz`, `_v3.pkl` and `_v3_plain.npz`.
+- `eval_v2.py`, `eval_te.py`, `summarize.py`: test-set accuracy of v2 and v3 (tables in [../README.md](../README.md#ede-v3-october-2026)).
+
+v3 test errors (95th percentile, median over modes) are 1.2 to 20 times lower than v2, for example TT 0.078% against 0.164%, PKL 0.025% against 0.156%, DAZ 0.0005% against 0.010%. TT errors decrease as about N^-0.4 up to the full training set:
+
+![TT scaling](training_v3/scaling_TT.png)
 
 ## Known issues with class_ede
 
